@@ -33,7 +33,11 @@ class Dictionary
       }
   end
 
-  def translate(char)
-    letter_to_braille[char]
+  def translate(input)
+    x = input.flat_map do |string|
+      string.chomp.chars.map do |char|
+        letter_to_braille[char]
+      end
+    end
   end
 end
