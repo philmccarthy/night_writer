@@ -13,4 +13,16 @@ class ReaderTest < Minitest::Test
     assert_instance_of FileManager, @reader.file_manager
     assert_instance_of Dictionary, @reader.dictionary
   end
+
+  def test_it_can_deformat_short_braille
+    assert_equal "hello world", @reader.decode_from_braille("0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...")
+  end
+
+  def test_it_can_decode_file_from_braille
+    skip
+  end
+
+  def test_it_can_decode_from_braille
+    skip
+  end
 end
