@@ -1,5 +1,12 @@
+require './lib/logger'
+
 class FileManager
-  attr_reader :char_count
+  attr_reader :char_count,
+              :logger
+
+  def initialize
+    @logger = Logger.new
+  end
 
   def read
     incoming_text = File.readlines(ARGV[0])
@@ -10,7 +17,7 @@ class FileManager
   def write(output)
     new_file = File.open(ARGV[1], 'w')
     new_file.write(output)
-    puts "Created '#{new_file.path}' containing #{char_count} characters"
+    logger.confirmation_msg(new_file.path, char_count)
     new_file
   end
 
