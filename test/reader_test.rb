@@ -14,12 +14,12 @@ class ReaderTest < Minitest::Test
     assert_instance_of Dictionary, @reader.dictionary
   end
 
-  def test_it_can_flow_through_standardize_format
+  def test_it_can_flow_through_translate_braille_format_standardization
     expected = "hello world"
     arg = "0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0..."
-    assert_equal expected, @reader.standardize_format(arg)
+    assert_equal expected, @reader.translate_braille(arg)
     arg = ["0.0.0.0.0....00.0.0.00", "00.00.0..0..00.0000..0", "....0.0.0....00.0.0..."]
-    assert_equal expected, @reader.standardize_format(arg)
+    assert_equal expected, @reader.translate_braille(arg)
   end
 
   def test_it_can_deformat_braille
@@ -55,5 +55,16 @@ class ReaderTest < Minitest::Test
   def test_it_can_decode_file_to_english
     ARGV.replace ["test_song.txt", "test_song_out.txt"]
     assert_equal "test_song_out.txt", @reader.decode_file_from_braille.path
+  end
+
+  def test_it_can_convert_deformatted_braille_to_english_characters
+    arg = [
+            ["0.", "00", ".."],
+            ["0.", ".0", ".."],
+            ["0.", "0.", "0."],
+            ["0.", "0.", "0."],
+            ["0.", ".0", "0."]
+          ]
+    assert_equal "hello", @reader.stringify_braille(arg)
   end
 end

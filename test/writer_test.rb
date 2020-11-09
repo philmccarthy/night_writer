@@ -30,4 +30,59 @@ class WriterTest < Minitest::Test
     ARGV.replace ["test_in.txt", "test_out.txt"]
     assert_equal "test_out.txt", @writer.encode_file_to_braille.path
   end
+
+  def test_it_can_build_braille_rows_hash
+    expected = {:top=>"0.0.0.0.0....00.0.0.00", :mid=>"00.00.0..0..00.0000..0", :btm=>"....0.0.0....00.0.0..."}
+    assert_equal expected, @writer.build_braille_rows(['hello world'])
+  end
+
+  def test_it_can_join_braille_row_arrays_to_strings
+    arg = {:top=> [["0", "."]], :mid=>[["0", "0"]], :btm=> [[".", "."]]}
+    exp = {:top=>"0.", :mid=>"00", :btm=>".."}
+    assert_equal exp, @writer.join_braille_rows(arg)
+    arg = {:top=>
+            [["0", "."],
+             ["0", "."],
+             ["0", "."],
+             ["0", "."],
+             ["0", "."],
+             [".", "."],
+             [".", "0"],
+             ["0", "."],
+             ["0", "."],
+             ["0", "."],
+             ["0", "0"]],
+           :mid=>
+            [["0", "0"],
+             [".", "0"],
+             ["0", "."],
+             ["0", "."],
+             [".", "0"],
+             [".", "."],
+             ["0", "0"],
+             [".", "0"],
+             ["0", "0"],
+             ["0", "."],
+             [".", "0"]],
+           :btm=>
+            [[".", "."],
+             [".", "."],
+             ["0", "."],
+             ["0", "."],
+             ["0", "."],
+             [".", "."],
+             [".", "0"],
+             ["0", "."],
+             ["0", "."],
+             ["0", "."],
+             [".", "."]]
+           }
+    exp = {:top=>"0.0.0.0.0....00.0.0.00", :mid=>"00.00.0..0..00.0000..0", :btm=>"....0.0.0....00.0.0..."}
+    assert_equal exp, @writer.join_braille_rows(arg)
+  end
+
+  def test_it_can_braillify_single_english_characters
+    assert_equal ["0..00."], @writer.braillify_english(['o'])
+    assert_equal ["0..0.."], @writer.braillify_english(['e'])
+  end
 end
