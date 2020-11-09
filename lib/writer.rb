@@ -5,7 +5,6 @@ class Writer
   def initialize
     @file_manager = FileManager.new(self)
     @dictionary = Dictionary.new
-    encode_file_to_braille
   end
 
   def encode_file_to_braille
@@ -16,14 +15,23 @@ class Writer
 
   def encode_to_braille(input)
     braille = dictionary.translate(input)
-    row1 = []
-    row2 = []
-    row3 = []
+    top = []
+    mid = []
+    btm = []
     braille.each do |hex|
-      row1 << hex.chars[0..1]
-      row2 << hex.chars[2..3]
-      row3 << hex.chars[4..5]
+      top << hex.chars[0..1]
+      mid << hex.chars[2..3]
+      btm << hex.chars[4..5]
     end
-    "#{row1.join}\n#{row2.join}\n#{row3.join}"
+    top = top.join
+    mid = mid.join
+    btm = btm.join
+    final_string = []
+    until top.empty?
+      final_string << "#{top.slice!(0..79)}\n"
+      final_string << "#{mid.slice!(0..79)}\n"
+      final_string << "#{btm.slice!(0..79)}\n"
+    end
+    final_string.join.chomp
   end
 end

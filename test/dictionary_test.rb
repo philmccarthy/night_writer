@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/pride'
+require './test/test_helper.rb'
 require './lib/dictionary'
 
 class DictionaryTest < Minitest::Test
@@ -19,7 +18,7 @@ class DictionaryTest < Minitest::Test
 
   def test_it_can_translate_latin_char_to_braille_char
     dictionary = Dictionary.new
-    assert_equal "0..00.", dictionary.translate('o')
-    assert_equal "0..0..", dictionary.translate('e')
+    assert_equal ["0..00."], dictionary.translate(['o'])
+    assert_equal ["0..0.."], dictionary.translate(['e'])
   end
 end
