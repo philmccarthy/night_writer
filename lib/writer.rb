@@ -13,24 +13,38 @@ class Writer
       file_manager.write(encoded)
   end
 
-  def encode_to_braille(input)
-    braille = dictionary.braillify_english(input)
-    top = []
-    mid = []
-    btm = []
-    braille.each do |hex|
-      top << hex.chars[0..1]
-      mid << hex.chars[2..3]
-      btm << hex.chars[4..5]
+  def build_braille_rows(input)
+    row_hash = Hash.new { |row_hash, line| row_hash[line] = [] }
+    dictionary.braillify_english(input).each do |pair|
+      row_hash[:top] << pair.chars[0..1]
+      row_hash[:mid] << pair.chars[2..3]
+      row_hash[:btm] << pair.chars[4..5]
     end
-    top = top.join
-    mid = mid.join
-    btm = btm.join
+    join_braille_rows(row_hash)
+  end
+
+  def join_braille_rows(input)
+    input.keys.each do |row|
+      input[row] = input[row].join
+    end
+    input
+  end
+
+  def encode_to_braille(input)
+    braille_by_row = build_braille_rows(input)
+    require "pry"; binding.pry
+    # braille = dictionary.braillify_english(input)
+    # row_hash = Hash.new { |row_hash, line| row_hash[line] = [] }
+    # braille.each do |pair|
+    #   row_hash[:top] << pair.chars[0..1]
+    #   row_hash[:mid] << pair.chars[2..3]
+    #   row_hash[:btm] << pair.chars[4..5]
+    # end
     final_string = []
-    until top.empty?
-      final_string << "#{top.slice!(0..79)}\n"
-      final_string << "#{mid.slice!(0..79)}\n"
-      final_string << "#{btm.slice!(0..79)}\n"
+    until row_hash[:top].empty?
+      final_string << "#{row_hash[:top].slice!(0..79)}\n"
+      final_string << "#{row_hash[:mid].slice!(0..79)}\n"
+      final_string << "#{row_hash[:btm].slice!(0..79)}\n"
     end
     final_string.join.chomp
   end
