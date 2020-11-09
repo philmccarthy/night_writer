@@ -3,7 +3,7 @@ class Writer
               :dictionary
 
   def initialize
-    @file_manager = FileManager.new(self)
+    @file_manager = FileManager.new
     @dictionary = Dictionary.new
   end
 
@@ -14,7 +14,7 @@ class Writer
   end
 
   def encode_to_braille(input)
-    braille = dictionary.translate(input)
+    braille = dictionary.braillify_english(input)
     top = []
     mid = []
     btm = []
