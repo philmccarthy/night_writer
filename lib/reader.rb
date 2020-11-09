@@ -1,3 +1,5 @@
+require './lib/file_manager'
+require './lib/dictionary'
 require './lib/translator'
 
 class Reader
