@@ -34,10 +34,18 @@ class Dictionary
   end
 
   def translate(input)
-    x = input.flat_map do |string|
-      string.chomp.chars.map do |char|
-        letter_to_braille[char]
+    input.map do |string|
+      if is_braille?(string)
+        letter_to_braille.invert[string]
+      else
+        string.chomp.chars.map do |char|
+          letter_to_braille[char]
+        end
       end
     end
+  end
+
+  def is_braille?(input)
+    letter_to_braille.values.include?(input)
   end
 end
