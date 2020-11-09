@@ -30,4 +30,49 @@ class WriterTest < Minitest::Test
     ARGV.replace ["test_in.txt", "test_out.txt"]
     assert_equal "test_out.txt", @writer.encode_file_to_braille.path
   end
+
+  def test_it_can_create_hash_of_braille_rows
+    expected = {:top=>
+                [["0", "."],
+                 ["0", "."],
+                 ["0", "."],
+                 ["0", "."],
+                 ["0", "."],
+                 [".", "."],
+                 [".", "0"],
+                 ["0", "."],
+                 ["0", "."],
+                 ["0", "."],
+                 ["0", "0"]],
+               :mid=>
+                [["0", "0"],
+                 [".", "0"],
+                 ["0", "."],
+                 ["0", "."],
+                 [".", "0"],
+                 [".", "."],
+                 ["0", "0"],
+                 [".", "0"],
+                 ["0", "0"],
+                 ["0", "."],
+                 [".", "0"]],
+               :btm=>
+                [[".", "."],
+                 [".", "."],
+                 ["0", "."],
+                 ["0", "."],
+                 ["0", "."],
+                 [".", "."],
+                 [".", "0"],
+                 ["0", "."],
+                 ["0", "."],
+                 ["0", "."],
+                 [".", "."]]}
+    assert_equal expected, @writer.build_braille_rows(['hello world'])
+  end
+
+  def test_it_can_join_braille_row_arrays_to_strings
+    expected = "0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00"
+    @writer.join_braille_rows
+  end
 end
