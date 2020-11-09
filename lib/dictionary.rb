@@ -34,7 +34,7 @@ class Dictionary
   end
 
   def translate(input)
-    input.map do |string|
+    input.flat_map do |string|
       if is_braille?(string)
         letter_to_braille.invert[string]
       else
