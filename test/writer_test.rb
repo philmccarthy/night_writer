@@ -80,4 +80,9 @@ class WriterTest < Minitest::Test
     exp = {:top=>"0.0.0.0.0....00.0.0.00", :mid=>"00.00.0..0..00.0000..0", :btm=>"....0.0.0....00.0.0..."}
     assert_equal exp, @writer.join_braille_rows(arg)
   end
+
+  def test_it_can_braillify_single_english_characters
+    assert_equal ["0..00."], @writer.braillify_english(['o'])
+    assert_equal ["0..0.."], @writer.braillify_english(['e'])
+  end
 end
