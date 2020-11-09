@@ -7,9 +7,7 @@ class FileManager
   end
 
   def read
-    handle = File.open(ARGV[0], 'r')
-    incoming_text = handle.readlines
-    handle.close
+    incoming_text = File.readlines(ARGV[0])
     @char_count = count_characters(incoming_text)
     incoming_text
   end
