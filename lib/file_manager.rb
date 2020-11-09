@@ -1,10 +1,5 @@
 class FileManager
-  attr_reader :char_count,
-              :writer
-
-  def initialize(writer)
-    @writer = writer
-  end
+  attr_reader :char_count
 
   def read
     incoming_text = File.readlines(ARGV[0])
