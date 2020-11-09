@@ -32,19 +32,11 @@ class Writer
 
   def encode_to_braille(input)
     braille_by_row = build_braille_rows(input)
-    require "pry"; binding.pry
-    # braille = dictionary.braillify_english(input)
-    # row_hash = Hash.new { |row_hash, line| row_hash[line] = [] }
-    # braille.each do |pair|
-    #   row_hash[:top] << pair.chars[0..1]
-    #   row_hash[:mid] << pair.chars[2..3]
-    #   row_hash[:btm] << pair.chars[4..5]
-    # end
     final_string = []
-    until row_hash[:top].empty?
-      final_string << "#{row_hash[:top].slice!(0..79)}\n"
-      final_string << "#{row_hash[:mid].slice!(0..79)}\n"
-      final_string << "#{row_hash[:btm].slice!(0..79)}\n"
+    until braille_by_row[:top].empty?
+      final_string << "#{braille_by_row[:top].slice!(0..79)}\n"
+      final_string << "#{braille_by_row[:mid].slice!(0..79)}\n"
+      final_string << "#{braille_by_row[:btm].slice!(0..79)}\n"
     end
     final_string.join.chomp
   end
