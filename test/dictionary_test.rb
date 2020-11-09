@@ -16,9 +16,27 @@ class DictionaryTest < Minitest::Test
     assert_equal "00.000", dictionary.letter_to_braille['y']
   end
 
-  def test_it_can_translate_latin_char_to_braille_char
+  def test_it_can_braillify_single_english_characters
     dictionary = Dictionary.new
-    assert_equal ["0..00."], dictionary.translate(['o'])
-    assert_equal ["0..0.."], dictionary.translate(['e'])
+    assert_equal ["0..00."], dictionary.braillify_english(['o'])
+    assert_equal ["0..0.."], dictionary.braillify_english(['e'])
+  end
+
+  def test_it_can_convert_deformatted_braille_to_english_characters
+    dictionary = Dictionary.new
+    arg = [
+            ["0.", "00", ".."],
+            ["0.", ".0", ".."],
+            ["0.", "0.", "0."],
+            ["0.", "0.", "0."],
+            ["0.", ".0", "0."]
+          ]
+    assert_equal "hello", dictionary.stringify_braille(arg)
+  end
+
+  def test_it_can_invert_letter_to_braille
+    dictionary = Dictionary.new
+    assert_equal 'o', dictionary.braille_to_letter["0..00."]
+    assert_equal 'e', dictionary.braille_to_letter["0..0.."]
   end
 end
