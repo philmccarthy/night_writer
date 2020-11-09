@@ -34,20 +34,4 @@ class Dictionary
       }
     @braille_to_letter = letter_to_braille.invert
   end
-
-  def stringify_braille(input)
-    collector = []
-    input.each do |char_arr|
-      collector << braille_to_letter[char_arr.join]
-    end
-    collector.join
-  end
-
-  def braillify_english(input)
-    input.flat_map do |string|
-      string.chomp.chars.map do |char|
-        letter_to_braille[char]
-      end
-    end
-  end
 end

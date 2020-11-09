@@ -1,4 +1,8 @@
+require './lib/translator'
+
 class Writer
+  include Translator
+
   attr_reader :file_manager,
               :dictionary
 
@@ -13,31 +17,8 @@ class Writer
       file_manager.write(encoded)
   end
 
-  def build_braille_rows(input)
-    row_hash = Hash.new { |row_hash, line| row_hash[line] = [] }
-    dictionary.braillify_english(input).each do |pair|
-      row_hash[:top] << pair.chars[0..1]
-      row_hash[:mid] << pair.chars[2..3]
-      row_hash[:btm] << pair.chars[4..5]
-    end
-    join_braille_rows(row_hash)
-  end
-
-  def join_braille_rows(input)
-    input.keys.each do |row|
-      input[row] = input[row].join
-    end
-    input
-  end
-
   def encode_to_braille(input)
     braille_by_row = build_braille_rows(input)
-    final_string = []
-    until braille_by_row[:top].empty?
-      final_string << "#{braille_by_row[:top].slice!(0..79)}\n"
-      final_string << "#{braille_by_row[:mid].slice!(0..79)}\n"
-      final_string << "#{braille_by_row[:btm].slice!(0..79)}\n"
-    end
-    final_string.join.chomp
+    output_braille(braille_by_row)
   end
 end
