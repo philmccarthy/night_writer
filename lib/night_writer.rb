@@ -2,4 +2,5 @@ require './lib/writer'
 require './lib/file_manager'
 require './lib/dictionary'
 
-Writer.new
+writer = Writer.new
+writer.encode_file_to_braille
