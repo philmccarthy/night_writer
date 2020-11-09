@@ -31,7 +31,7 @@ class WriterTest < Minitest::Test
     assert_equal "test_out.txt", @writer.encode_file_to_braille.path
   end
 
-  def test_it_can_create_hash_of_braille_rows
+  def test_it_can_build_braille_rows_hash
     expected = {:top=>"0.0.0.0.0....00.0.0.00", :mid=>"00.00.0..0..00.0000..0", :btm=>"....0.0.0....00.0.0..."}
     assert_equal expected, @writer.build_braille_rows(['hello world'])
   end
