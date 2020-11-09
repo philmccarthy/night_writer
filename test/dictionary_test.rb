@@ -21,4 +21,16 @@ class DictionaryTest < Minitest::Test
     assert_equal ["0..00."], dictionary.translate(['o'])
     assert_equal ["0..0.."], dictionary.translate(['e'])
   end
+
+  def test_it_can_translate_braille_to_latin_char
+    dictionary = Dictionary.new
+    assert_equal ['o'], dictionary.translate(["0..00."])
+    assert_equal ['e'], dictionary.translate(["0..0.."])
+  end
+
+  def test_it_can_check_if_input_is_braille
+    dictionary = Dictionary.new
+    assert_equal true, dictionary.is_braille?("0..00.")
+    assert_equal false, dictionary.is_braille?("hello")
+  end
 end
