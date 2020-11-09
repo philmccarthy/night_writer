@@ -5,7 +5,6 @@ class Writer
   def initialize
     @file_manager = FileManager.new(self)
     @dictionary = Dictionary.new
-    encode_file_to_braille
   end
 
   def encode_file_to_braille
