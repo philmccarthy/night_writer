@@ -1,5 +1,6 @@
 class Dictionary
-  attr_reader :letter_to_braille
+  attr_reader :letter_to_braille,
+              :braille_to_letter
 
   def initialize
     @letter_to_braille = {
@@ -17,7 +18,7 @@ class Dictionary
         'k' => "0...0.",
         'l' => "0.0.0.",
         'm' => "00..0.",
-        'n' => "0..00.",
+        'n' => "00.00.",
         'o' => "0..00.",
         'p' => "000.0.",
         'q' => "00000.",
@@ -31,21 +32,22 @@ class Dictionary
         'y' => "00.000",
         'z' => "0..000"
       }
+    @braille_to_letter = letter_to_braille.invert
   end
 
-  def translate(input)
+  def stringify_braille(input)
+    collector = []
+    input.each do |char_arr|
+      collector << braille_to_letter[char_arr.join]
+    end
+    collector.join
+  end
+
+  def braillify_english(input)
     input.flat_map do |string|
-      if is_braille?(string)
-        letter_to_braille.invert[string]
-      else
-        string.chomp.chars.map do |char|
-          letter_to_braille[char]
-        end
+      string.chomp.chars.map do |char|
+        letter_to_braille[char]
       end
     end
-  end
-
-  def is_braille?(input)
-    letter_to_braille.values.include?(input)
   end
 end
