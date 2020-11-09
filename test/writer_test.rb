@@ -72,7 +72,18 @@ class WriterTest < Minitest::Test
   end
 
   def test_it_can_join_braille_row_arrays_to_strings
-    expected = "0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00"
-    @writer.join_braille_rows
+    arg = { :top=>
+              [["0", "."]],
+            :mid=>
+              [["0", "0"]],
+            :btm=>
+              [[".", "."]]
+          }
+    exp = {
+            :top=>"0.",
+            :mid=>"00",
+            :btm=>".."
+          }
+    assert_equal exp, @writer.join_braille_rows(arg)
   end
 end
