@@ -54,6 +54,7 @@ class ReaderTest < Minitest::Test
 
   def test_it_can_decode_file_to_english
     ARGV.replace ["test_song.txt", "test_song_out.txt"]
+    @reader.file_manager.logger.stubs(:puts)
     assert_equal "test_song_out.txt", @reader.decode_file_from_braille.path
   end
 

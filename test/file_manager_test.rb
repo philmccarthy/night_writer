@@ -15,6 +15,7 @@ class FileManagerTest < Minitest::Test
 
   def test_it_writes_to_file
     file_manager = FileManager.new
+    file_manager.logger.stubs(:confirmation_msg)
     ARGV.replace ["test_in.txt", "test_out.txt"]
     assert_equal "test_out.txt", file_manager.write('0.0.0.').path
   end

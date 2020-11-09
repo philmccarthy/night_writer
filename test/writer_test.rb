@@ -28,6 +28,7 @@ class WriterTest < Minitest::Test
 
   def test_it_can_encode_file_to_braille
     ARGV.replace ["test_in.txt", "test_out.txt"]
+    @writer.file_manager.logger.stubs(:puts)
     assert_equal "test_out.txt", @writer.encode_file_to_braille.path
   end
 
