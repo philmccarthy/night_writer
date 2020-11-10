@@ -1,20 +1,20 @@
 module Translator
+  def build_braille_rows(input)
+    braille_rows = Hash.new { |braille_rows, line| braille_rows[line] = [] }
+    braillify_english(input).each do |pair|
+      braille_rows[:top] << pair.chars[0..1]
+      braille_rows[:mid] << pair.chars[2..3]
+      braille_rows[:btm] << pair.chars[4..5]
+    end
+    join_braille_rows(braille_rows)
+  end
+
   def braillify_english(input)
     input.flat_map do |string|
       string.chomp.chars.map do |char|
         dictionary.letter_to_braille[char]
       end
     end
-  end
-
-  def build_braille_rows(input)
-    row_hash = Hash.new { |row_hash, line| row_hash[line] = [] }
-    braillify_english(input).each do |pair|
-      row_hash[:top] << pair.chars[0..1]
-      row_hash[:mid] << pair.chars[2..3]
-      row_hash[:btm] << pair.chars[4..5]
-    end
-    join_braille_rows(row_hash)
   end
 
   def join_braille_rows(input)
@@ -27,9 +27,9 @@ module Translator
   def output_braille(input)
     final_string = []
     until input[:top].empty?
-      final_string << "#{input[:top].slice!(0..79)}\n"
-      final_string << "#{input[:mid].slice!(0..79)}\n"
-      final_string << "#{input[:btm].slice!(0..79)}\n"
+      input.keys.each do |row|
+        final_string << "#{input[row].slice!(0..79)}\n"
+      end
     end
     final_string.join.chomp
   end
@@ -43,15 +43,15 @@ module Translator
   end
 
   def deformat_braille(input)
-    line_hash = Hash.new { |line_hash, line| line_hash[line] = [] }
+    braille_thirds = Hash.new { |braille_thirds, line| braille_thirds[line] = [] }
     input.each_cons(3) do |triplet|
       until triplet[0].size == 0
-        line_hash[:top] << triplet[0].slice!(0..1)
-        line_hash[:mid] << triplet[1].slice!(0..1)
-        line_hash[:btm] << triplet[2].slice!(0..1)
+        braille_thirds[:top] << triplet[0].slice!(0..1)
+        braille_thirds[:mid] << triplet[1].slice!(0..1)
+        braille_thirds[:btm] << triplet[2].slice!(0..1)
       end
     end
-    braille = line_hash[:top].zip(line_hash[:mid], line_hash[:btm])
+    braille = braille_thirds[:top].zip(braille_thirds[:mid], braille_thirds[:btm])
     stringify_braille(braille)
   end
 

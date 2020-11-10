@@ -14,13 +14,10 @@ class Writer
   end
 
   def encode_file_to_braille
-      incoming_text = file_manager.read
-      encoded = encode_to_braille(incoming_text)
-      file_manager.write(encoded)
+    file_manager.write(encode_to_braille(file_manager.read))
   end
 
   def encode_to_braille(input)
-    braille_by_row = build_braille_rows(input)
-    output_braille(braille_by_row)
+    output_braille(build_braille_rows(input))
   end
 end
