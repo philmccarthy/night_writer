@@ -1,12 +1,4 @@
 module Translator
-  def braillify_english(input)
-    input.flat_map do |string|
-      string.chomp.chars.map do |char|
-        dictionary.letter_to_braille[char]
-      end
-    end
-  end
-
   def build_braille_rows(input)
     braille_rows = Hash.new { |braille_rows, line| braille_rows[line] = [] }
     braillify_english(input).each do |pair|
@@ -15,6 +7,14 @@ module Translator
       braille_rows[:btm] << pair.chars[4..5]
     end
     join_braille_rows(braille_rows)
+  end
+
+  def braillify_english(input)
+    input.flat_map do |string|
+      string.chomp.chars.map do |char|
+        dictionary.letter_to_braille[char]
+      end
+    end
   end
 
   def join_braille_rows(input)
@@ -27,9 +27,9 @@ module Translator
   def output_braille(input)
     final_string = []
     until input[:top].empty?
-      final_string << "#{input[:top].slice!(0..79)}\n"
-      final_string << "#{input[:mid].slice!(0..79)}\n"
-      final_string << "#{input[:btm].slice!(0..79)}\n"
+      input.keys.each do |row|
+        final_string << "#{input[row].slice!(0..79)}\n"
+      end
     end
     final_string.join.chomp
   end
