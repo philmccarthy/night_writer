@@ -14,8 +14,7 @@ class Reader
   end
 
   def decode_file_from_braille
-    incoming_text = file_manager.read
-    decoded = decode_from_braille(incoming_text)
+    decoded = decode_from_braille(file_manager.read)
     file_manager.write(decoded)
   end
 
